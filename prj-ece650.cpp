@@ -353,12 +353,18 @@ int main(int argc, const char * argv[])
         pthread_create (&approx_vc_1_thread, NULL, &approx_vc_1, NULL);
         pthread_create (&approx_vc_2_thread, NULL, &approx_vc_2, NULL);
         
+        pthread_join(cnf_sat_thread, &ret);
+        
         clockid_t cid;
         pthread_getcpuclockid(cnf_sat_thread, &cid);
         pclock("CNF-SAT-VC thread CPU Time: ", cid);
         
+        pthread_join(approx_vc_1_thread, &ret);
+        
         pthread_getcpuclockid(approx_vc_1_thread, &cid);
         pclock("APPROX-VC-1 thread CPU Time: ", cid);
+        
+        pthread_join(approx_vc_2_thread, &ret);
         
         pthread_getcpuclockid(approx_vc_2_thread, &cid);
         pclock("APPROX-VC-2 thread CPU Time: ", cid);
@@ -382,10 +388,6 @@ int main(int argc, const char * argv[])
 //        
 //        cout<<"APPROX-VC-2 thread CPU Time: ";
 //        printf("%4ld.%03ld\n", ts.tv_sec, ts.tv_nsec / 1000000);
-        
-        pthread_join(cnf_sat_thread, &ret);
-        pthread_join(approx_vc_1_thread, &ret);
-        pthread_join(approx_vc_2_thread, &ret);
         
         cout<<"CNF-SAT-VC: ";
         for(int i = 0; i < cnf_sat_vc_out.size(); i++)    //output vertex cover
