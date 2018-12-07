@@ -4,6 +4,7 @@
 #include "edge.hpp"
 #include <pthread.h>
 #include <vector>
+#include <algorithm>
 #include <time.h>
 
 using namespace std;
