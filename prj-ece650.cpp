@@ -355,9 +355,7 @@ int main(int argc, const char * argv[])
         pthread_create (&approx_vc_2_thread, NULL, &approx_vc_2, NULL);
         
         clockid_t cid;
-        s = pthread_getcpuclockid(cnf_sat_thread, &cid);
-        if (s != 0)
-            handle_error_en(s, "pthread_getcpuclockid");
+        pthread_getcpuclockid(cnf_sat_thread, &cid);
         pclock("SAT CPU time: 1    ", cid);
 //        struct timespec ts;
         
