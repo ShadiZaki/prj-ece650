@@ -15,10 +15,10 @@ vector<int> cnf_sat_vc_out;
 vector<int> approx_vc_1_out;
 vector<int> approx_vc_2_out;
 
-int read_write_mutex;
-int cnf_sat_vc_mutex;
-int approx_vc_1_mutex;
-int approx_vc_2_mutex;
+//int read_write_mutex;
+//int cnf_sat_vc_mutex;
+//int approx_vc_1_mutex;
+//int approx_vc_2_mutex;
 
 static void pclock(char *msg, clockid_t cid)
 {
@@ -31,7 +31,7 @@ static void pclock(char *msg, clockid_t cid)
 
 void* read_write(void* unused)
 {
-    read_write_mutex = 1;
+//    read_write_mutex = 1;
     
     string command = "    ";
     bool v_specified = false;   //determines if the number of vertices has been specified
@@ -103,51 +103,51 @@ void* read_write(void* unused)
         }
     }
     }
-    cnf_sat_vc_mutex = 1;
-    approx_vc_1_mutex = 1;
-    approx_vc_2_mutex = 1;
+//    cnf_sat_vc_mutex = 1;
+//    approx_vc_1_mutex = 1;
+//    approx_vc_2_mutex = 1;
+//    
+//    read_write_mutex = 0;
+//    
+//    while(cnf_sat_vc_mutex == 1) { }
+//    while(approx_vc_1_mutex == 1) { }
+//    while(approx_vc_2_mutex == 1) { }
     
-    read_write_mutex = 0;
-    
-    while(cnf_sat_vc_mutex == 1) { }
-    while(approx_vc_1_mutex == 1) { }
-    while(approx_vc_2_mutex == 1) { }
-    
-    cout<<"CNF-SAT-VC: ";
-    for(int i = 0; i < cnf_sat_vc_out.size(); i++)    //output vertex cover
-    {
-        cout<<cnf_sat_vc_out.at(i);
-        if(i != cnf_sat_vc_out.size()-1)
-        {
-            cout<<",";
-        }
-    }
-    cout<<endl;
-    cnf_sat_vc_out.clear();
-    
-    cout<<"APPROX-VC-1: ";
-    for(int i = 0; i < approx_vc_1_out.size(); i++)
-    {
-        cout<<approx_vc_1_out.at(i);
-        if(i != approx_vc_1_out.size()-1)
-        {
-            cout<<",";
-        }
-    }
-    cout<<endl;
-    approx_vc_1_out.clear();
-    
-    cout<<"APPROX-VC-2: ";
-    for(int i = 0; i < approx_vc_2_out.size(); i++)
-    {
-        cout<<approx_vc_2_out.at(i);
-        if(i != approx_vc_2_out.size()-1)
-        {
-            cout<<",";
-        }
-    }
-    cout<<endl;
-    approx_vc_2_out.clear();
+//    cout<<"CNF-SAT-VC: ";
+//    for(int i = 0; i < cnf_sat_vc_out.size(); i++)    //output vertex cover
+//    {
+//        cout<<cnf_sat_vc_out.at(i);
+//        if(i != cnf_sat_vc_out.size()-1)
+//        {
+//            cout<<",";
+//        }
+//    }
+//    cout<<endl;
+//    cnf_sat_vc_out.clear();
+//    
+//    cout<<"APPROX-VC-1: ";
+//    for(int i = 0; i < approx_vc_1_out.size(); i++)
+//    {
+//        cout<<approx_vc_1_out.at(i);
+//        if(i != approx_vc_1_out.size()-1)
+//        {
+//            cout<<",";
+//        }
+//    }
+//    cout<<endl;
+//    approx_vc_1_out.clear();
+//    
+//    cout<<"APPROX-VC-2: ";
+//    for(int i = 0; i < approx_vc_2_out.size(); i++)
+//    {
+//        cout<<approx_vc_2_out.at(i);
+//        if(i != approx_vc_2_out.size()-1)
+//        {
+//            cout<<",";
+//        }
+//    }
+//    cout<<endl;
+//    approx_vc_2_out.clear();
 }
 
 void* cnf_sat_vc(void* unused) //function to find the vertex cover using cnf sat solver
@@ -254,7 +254,7 @@ void* cnf_sat_vc(void* unused) //function to find the vertex cover using cnf sat
         k++;
     }
     
-    cnf_sat_vc_mutex = 0;
+//    cnf_sat_vc_mutex = 0;
 }
 
 void* approx_vc_1(void* unused)
@@ -300,7 +300,7 @@ void* approx_vc_1(void* unused)
     
     sort(approx_vc_1_out.begin(), approx_vc_1_out.end());
     
-    approx_vc_1_mutex = 0;
+//    approx_vc_1_mutex = 0;
 }
 
 void* approx_vc_2(void* unused)
@@ -329,7 +329,7 @@ void* approx_vc_2(void* unused)
     
     sort(approx_vc_2_out.begin(), approx_vc_2_out.end());
     
-    approx_vc_2_mutex = 0;
+//    approx_vc_2_mutex = 0;
 }
 
 int main(int argc, const char * argv[])
@@ -341,12 +341,13 @@ int main(int argc, const char * argv[])
         pthread_t cnf_sat_thread;
         pthread_t approx_vc_1_thread;
         pthread_t approx_vc_2_thread;
-        
-        read_write_mutex = 1;
+        void* ret;
+//        read_write_mutex = 1;
     
         pthread_create (&io_thread, NULL, &read_write, NULL);
+        pthread_join(io_thread, &ret);
         
-        while(read_write_mutex == 1) { }
+//        while(read_write_mutex == 1) { }
         
         pthread_create (&cnf_sat_thread, NULL, &cnf_sat_vc, NULL);
         pthread_create (&approx_vc_1_thread, NULL, &approx_vc_1, NULL);
@@ -381,6 +382,46 @@ int main(int argc, const char * argv[])
 //        
 //        cout<<"APPROX-VC-2 thread CPU Time: ";
 //        printf("%4ld.%03ld\n", ts.tv_sec, ts.tv_nsec / 1000000);
+        
+        pthread_join(cnf_sat_thread, &ret);
+        pthread_join(approx_vc_1_thread, &ret);
+        pthread_join(approx_vc_2_thread, &ret);
+        
+        cout<<"CNF-SAT-VC: ";
+        for(int i = 0; i < cnf_sat_vc_out.size(); i++)    //output vertex cover
+        {
+            cout<<cnf_sat_vc_out.at(i);
+            if(i != cnf_sat_vc_out.size()-1)
+            {
+                cout<<",";
+            }
+        }
+        cout<<endl;
+        cnf_sat_vc_out.clear();
+        
+        cout<<"APPROX-VC-1: ";
+        for(int i = 0; i < approx_vc_1_out.size(); i++)
+        {
+            cout<<approx_vc_1_out.at(i);
+            if(i != approx_vc_1_out.size()-1)
+            {
+                cout<<",";
+            }
+        }
+        cout<<endl;
+        approx_vc_1_out.clear();
+        
+        cout<<"APPROX-VC-2: ";
+        for(int i = 0; i < approx_vc_2_out.size(); i++)
+        {
+            cout<<approx_vc_2_out.at(i);
+            if(i != approx_vc_2_out.size()-1)
+            {
+                cout<<",";
+            }
+        }
+        cout<<endl;
+        approx_vc_2_out.clear();
 
     }
     return 0;
