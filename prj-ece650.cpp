@@ -342,26 +342,26 @@ int main(int argc, const char * argv[])
         pthread_create (&approx_vc_1_thread, NULL, &approx_vc_1, NULL);
         pthread_create (&approx_vc_2_thread, NULL, &approx_vc_2, NULL);
         
-//        clockid_t cid;
-//        struct timespec ts;
-//        
-//        pthread_getcpuclockid(cnf_sat_thread, &cid);
-//        clock_gettime(cid, &ts);
-//        
-//        cout<<"CNF-SAT-VC thread CPU Time: ";
-//        printf("%4ld.%03ld\n", ts.tv_sec, ts.tv_nsec / 1000000);
-//        
-//        pthread_getcpuclockid(approx_vc_1_thread, &cid);
-//        clock_gettime(cid, &ts);
-//        
-//        cout<<"APPROX-VC-1 thread CPU Time: ";
-//        printf("%4ld.%03ld\n", ts.tv_sec, ts.tv_nsec / 1000000);
-//
-//        pthread_getcpuclockid(approx_vc_2_thread, &cid);
-//        clock_gettime(cid, &ts);
-//        
-//        cout<<"APPROX-VC-2 thread CPU Time: ";
-//        printf("%4ld.%03ld\n", ts.tv_sec, ts.tv_nsec / 1000000);
+        clockid_t cid;
+        struct timespec ts;
+        
+        pthread_getcpuclockid(cnf_sat_thread, &cid);
+        clock_gettime(cid, &ts);
+        
+        cout<<"CNF-SAT-VC thread CPU Time: ";
+        printf("%4ld.%03ld\n", ts.tv_sec, ts.tv_nsec / 1000000);
+        
+        pthread_getcpuclockid(approx_vc_1_thread, &cid);
+        clock_gettime(cid, &ts);
+        
+        cout<<"APPROX-VC-1 thread CPU Time: ";
+        printf("%4ld.%03ld\n", ts.tv_sec, ts.tv_nsec / 1000000);
+
+        pthread_getcpuclockid(approx_vc_2_thread, &cid);
+        clock_gettime(cid, &ts);
+        
+        cout<<"APPROX-VC-2 thread CPU Time: ";
+        printf("%4ld.%03ld\n", ts.tv_sec, ts.tv_nsec / 1000000);
 
     }
     return 0;
