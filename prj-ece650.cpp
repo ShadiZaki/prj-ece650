@@ -354,7 +354,14 @@ int main(int argc, const char * argv[])
         
         clockid_t cid;
         pthread_getcpuclockid(cnf_sat_thread, &cid);
-        pclock("SAT CPU time: 1    ", cid);
+        pclock("CNF-SAT-VC thread CPU Time: ", cid);
+        
+        pthread_getcpuclockid(approx_vc_1_thread, &cid);
+        pclock("APPROX-VC-1 thread CPU Time: ", cid);
+        
+        pthread_getcpuclockid(approx_vc_2_thread, &cid);
+        pclock("APPROX-VC-2 thread CPU Time: ", cid);
+        
 //        struct timespec ts;
         
 //        pthread_getcpuclockid(cnf_sat_thread, &cid);
