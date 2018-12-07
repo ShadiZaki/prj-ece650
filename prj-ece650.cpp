@@ -25,8 +25,6 @@ static void pclock(char *msg, clockid_t cid)
     struct timespec ts;
     
     printf("%s", msg);
-    if (clock_gettime(cid, &ts) == -1)
-        handle_error("clock_gettime");
     printf("%4ld.%03ld\n", ts.tv_sec, ts.tv_nsec / 1000000);
 }
 
